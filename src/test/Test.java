@@ -1,8 +1,9 @@
 package test;
 
-import java.sql.DriverManager;
 import java.util.Arrays;
-import model.DataAccess;
+import java.util.List;
+
+import model.*;
 
 import javax.swing.*;
 
@@ -29,10 +30,9 @@ public class Test {
 
     // create a data access object
     DataAccess data = new DataAccess(args[0], args[1], args[2]);
-
-    // access the database using high-level Java methods
-    // ...
-    // close the data access object when done
-    // ...
+    List<EmployeeInfo> employees = data.getEmployees();
+    for (EmployeeInfo employee : employees) {
+      System.out.println(employee);
+    }
   }
 }

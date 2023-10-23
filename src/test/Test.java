@@ -31,11 +31,19 @@ public class Test {
             args[1] = user;
             args[2] = pass;
         }
+
         System.out.println("Menu :\n1)getEmployee()\n2)raiseSalary()\n3)getDepartment()\n4)Quit");
         int choix = sc.nextInt();
+
+        //Parametres à rentrer :
         DataAccess data = new DataAccess(args[0], args[1], args[2]);
         List<EmployeeInfo> employees = data.getEmployeesPS();
-        List<DepartmentInfo> department = data.getDepartmentsPS(null,null,"NEW-YORK");
+        List<DepartmentInfo> department = data.getDepartmentsPS(null,null,null);
+        //raise amount for job :
+        String job = "CLERK";
+        float amount = 0;
+
+
         switch (choix) {
             case 1:
                 //------- EXO 2 -------
@@ -51,11 +59,6 @@ public class Test {
                 }
                 break;
             case 2:
-
-                // Specify the job and the salary raise amount
-                String job = "CLERK";
-                float amount = 0;
-
                 //------ EXO 3 ------
         /*boolean raise = data.raiseSalary(job, amount);
         if (raise) {

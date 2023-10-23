@@ -5,6 +5,7 @@ import model.EmployeeInfo;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * @author Jean-Michel Busca
@@ -15,39 +16,70 @@ public class Test {
      * @param args the command line arguments
      * @throws java.lang.Exception
      */
-    public static void main(String[] args) throws Exception {
+    public static <Int> void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Entrer un user:");
+        String user = sc.nextLine();
+        System.out.println("\nEntrer un mot de passe:");
+        String pass = sc.nextLine();
 
         // work around Netbeans bug
         if (args.length != 3) {
             args = Arrays.copyOf(args, 3);
             args[0] = "jdbc:mysql://localhost:3306/company?useSSL=false&serverTimezone=UTC";
-            args[1] = "User1Tp3";
-            args[2] = "root";
+            args[1] = user;
+            args[2] = pass;
         }
-
-        // create a data access object
+        System.out.println("Menu :\n1)getEmployee()\n2)raiseSalary()\n3)Quit");
+        int choix = sc.nextInt();
         DataAccess data = new DataAccess(args[0], args[1], args[2]);
+        List<EmployeeInfo> employees = data.getEmployeesPS();
+        switch (choix) {
+            case 1:
+                //------- EXO 2 -------
+        /*DataAccess data = new DataAccess(args[0], args[1], args[2]);
         List<EmployeeInfo> employees = data.getEmployees();
         for (EmployeeInfo employee : employees) {
             System.out.println(employee);
-        }
+        }*/
 
-        // Specify the job and the salary raise amount
-        String job = "SALESMAN";
-        float amount = 150;
+                //------- EXO 4 -------
+                for (EmployeeInfo employee : employees) {
+                    System.out.println(employee);
+                }
+                break;
+            case 2:
 
-        // Call the raiseSalary method to raise the salary for employees with the specified job
-        boolean raise = data.raiseSalary(job, amount);
+                // Specify the job and the salary raise amount
+                String job = "CLERK";
+                float amount = 0;
 
+                //------ EXO 3 ------
+        /*boolean raise = data.raiseSalary(job, amount);
         if (raise) {
             System.out.println("-----------------------------------------------------------");
-            System.out.println("\n\n\nSalary raise successful for:"+job+".\n\n");
             for (EmployeeInfo employee : employees) {
                 System.out.println(employee);
             }
+        */
+                //EXO4
+                boolean raise = data.raiseSalaryPS(job, amount);
 
-        } else {
-            System.out.println("Salary raise failed or no employees with the specified job.");
+                if (raise) {
+                    System.out.println("-----------------------------------------------------------");
+                    System.out.println("\n\n\nSalary raise successful for:" + job + ".\n\n");
+                    for (EmployeeInfo employee : employees) {
+                        System.out.println(employee);
+                    }
+
+                } else {
+                    System.out.println("Salary raise failed or no employees with the specified job.");
+                }
+                break;
+            case 3:
+                return;
+            default:
         }
     }
 }
+

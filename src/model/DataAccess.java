@@ -16,7 +16,8 @@ public class DataAccess {
         System.out.println("connected to " + url);
     }
 
-    public List<EmployeeInfo> getEmployees() throws SQLException {
+    //------- EXO 2 -------
+    /* public List<EmployeeInfo> getEmployees() throws SQLException {
         List<EmployeeInfo> employeeList = new ArrayList<>();
 
         String query = "SELECT EID, ENAME, SAL FROM emp";
@@ -32,8 +33,36 @@ public class DataAccess {
         }
         return employeeList;
     }
+    */
+
+    //------- EXO 4 -------
+    public List<EmployeeInfo> getEmployeesPS() throws SQLException {
+        List<EmployeeInfo> employeeList = new ArrayList<>();
+        String query = "SELECT EID, ENAME, SAL FROM emp";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            ResultSet res = stmt.executeQuery();
+            while (res.next()) {
+                int eid = res.getInt("EID");
+                String name = res.getString("ENAME");
+                float salary = res.getFloat("SAL");
+                EmployeeInfo employee = new EmployeeInfo(eid, name, salary);
+                employeeList.add(employee);
+            }
+            return employeeList;
+        }
+    }
 
     public boolean raiseSalary(String job, float amount) throws SQLException {
+        String query = "UPDATE emp SET SAL = SAL + " + amount + " WHERE JOB = '" + job + "'";
+
+        try (Statement stmt = connection.createStatement()) {
+            int rowsUpdated = stmt.executeUpdate(query);
+            return rowsUpdated > 0;
+        }
+    }
+
+
+    public boolean raiseSalaryPS(String job, float amount) throws SQLException {
         String query = "UPDATE emp SET SAL = SAL + ? WHERE JOB = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -46,6 +75,7 @@ public class DataAccess {
         }
     }
 }
+
 
 
 

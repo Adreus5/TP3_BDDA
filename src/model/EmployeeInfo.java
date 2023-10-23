@@ -18,7 +18,7 @@ public class EmployeeInfo {
 
   @Override
   public String toString() {
-    return "EmployeeInfo{" + "id=" + id + ", name=" + name + ", salary=" + salary + "}\n";
+    return "EmployeeInfo{" + "id=" + id + ", name=" + name + ", salary=" + salary +"}\n";
   }
 
   public int getId() {

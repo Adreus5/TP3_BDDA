@@ -35,7 +35,7 @@ public class Test {
         int choix = sc.nextInt();
         DataAccess data = new DataAccess(args[0], args[1], args[2]);
         List<EmployeeInfo> employees = data.getEmployeesPS();
-        List<DepartmentInfo> department = data.getDepartmentsPS();
+        List<DepartmentInfo> department = data.getDepartmentsPS(null,null,"NEW-YORK");
         switch (choix) {
             case 1:
                 //------- EXO 2 -------

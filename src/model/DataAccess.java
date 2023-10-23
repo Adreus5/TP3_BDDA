@@ -75,10 +75,63 @@ public class DataAccess {
         }
     }
 
-    public List<DepartmentInfo> getDepartmentsPS() throws SQLException {
+    //------- EXO 5 -------
+    /*public List<DepartmentInfo> getDepartments(Integer did, String dname, String dloc) throws SQLException {
         List<DepartmentInfo> departmentList = new ArrayList<>();
-        String query = "SELECT DID, DNAME, DLOC FROM dept";
+        String query = "SELECT DID, DNAME, DLOC FROM dept WHERE 1=1";
+        if (did != null) {
+            query += " AND DID = " + did;
+        }
+
+        if (dname != null) {
+            query += " AND DNAME = '" + dname + "'";
+        }
+
+        if (dloc != null) {
+            query += " AND DLOC = '" + dloc + "'";
+        }
+        try (Statement stmt = connection.createStatement()) {
+            ResultSet res = stmt.executeQuery(query);
+            while (res.next()) {
+                int id = res.getInt("DID");
+                String name = res.getString("DNAME");
+                String loc = res.getString("DLOC");
+                DepartmentInfo department = new DepartmentInfo(id, name, loc);
+                departmentList.add(department);
+            }
+            return departmentList;
+        }
+    }
+*/
+    public List<DepartmentInfo> getDepartmentsPS(Integer did, String dname, String dloc) throws SQLException {
+        List<DepartmentInfo> departmentList = new ArrayList<>();
+        String query = "SELECT DID, DNAME, DLOC FROM dept WHERE 1=1";
+        if (did != null) {
+            query += " AND DID = ?";
+        }
+
+        if (dname != null) {
+            query += " AND DNAME = ?";
+        }
+
+        if (dloc != null) {
+            query += " AND DLOC = ?";
+        }
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            int parameterIndex = 1;
+
+            if (did != null) {
+                stmt.setInt(parameterIndex++, did);
+            }
+
+            if (dname != null) {
+                stmt.setString(parameterIndex++, dname);
+            }
+
+            if (dloc != null) {
+                stmt.setString(parameterIndex, dloc);
+            }
+
             ResultSet res = stmt.executeQuery();
             while (res.next()) {
                 int id = res.getInt("DID");

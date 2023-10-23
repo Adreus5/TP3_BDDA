@@ -1,6 +1,7 @@
 package test;
 
 import model.DataAccess;
+import model.DepartmentInfo;
 import model.EmployeeInfo;
 
 import java.util.Arrays;
@@ -30,10 +31,11 @@ public class Test {
             args[1] = user;
             args[2] = pass;
         }
-        System.out.println("Menu :\n1)getEmployee()\n2)raiseSalary()\n3)Quit");
+        System.out.println("Menu :\n1)getEmployee()\n2)raiseSalary()\n3)getDepartment()\n4)Quit");
         int choix = sc.nextInt();
         DataAccess data = new DataAccess(args[0], args[1], args[2]);
         List<EmployeeInfo> employees = data.getEmployeesPS();
+        List<DepartmentInfo> department = data.getDepartmentsPS();
         switch (choix) {
             case 1:
                 //------- EXO 2 -------
@@ -77,6 +79,11 @@ public class Test {
                 }
                 break;
             case 3:
+                for (DepartmentInfo deparment : department) {
+                    System.out.println(deparment);
+                }
+                break;
+            case 4:
                 return;
             default:
         }

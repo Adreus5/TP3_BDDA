@@ -74,6 +74,22 @@ public class DataAccess {
             return rowsUpdated > 0;
         }
     }
+
+    public List<DepartmentInfo> getDepartmentsPS() throws SQLException {
+        List<DepartmentInfo> departmentList = new ArrayList<>();
+        String query = "SELECT DID, DNAME, DLOC FROM dept";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            ResultSet res = stmt.executeQuery();
+            while (res.next()) {
+                int id = res.getInt("DID");
+                String name = res.getString("DNAME");
+                String loc = res.getString("DLOC");
+                DepartmentInfo department = new DepartmentInfo(id, name, loc);
+                departmentList.add(department);
+            }
+        }
+        return departmentList;
+    }
 }
 
 

@@ -21,7 +21,7 @@ public class Test {
       args = Arrays.copyOf(args, 3);
       args[2] = "";
     }
-
+    Class.forName("com.mysql.cj.jdbc.Driver");
     // create a data access object
     DataAccess data = new DataAccess(args[0], args[1], args[2]);
 

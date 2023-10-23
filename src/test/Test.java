@@ -68,17 +68,16 @@ public class Test {
                 boolean raise = data.raiseSalaryPS(job, amount);
 
                 if (raise) {
-                    System.out.println("-----------------------------------------------------------");
                     System.out.println("\n\n\nSalary raise successful for:" + job + ".\n\n");
                     for (EmployeeInfo employee : employees) {
                         System.out.println(employee);
                     }
-
                 } else {
                     System.out.println("Salary raise failed or no employees with the specified job.");
                 }
                 break;
             case 3:
+                //EXO5
                 for (DepartmentInfo deparment : department) {
                     System.out.println(deparment);
                 }
@@ -86,6 +85,8 @@ public class Test {
             case 4:
                 return;
             default:
+                System.out.println("Please choose one of the options: ");
+                choix = sc.nextInt();
         }
     }
 }

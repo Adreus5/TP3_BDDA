@@ -41,7 +41,7 @@ public class Test {
         List<DepartmentInfo> department = data.getDepartmentsPS(null,null,null);
         //raise amount for job :
         String job = "CLERK";
-        float amount = 0;
+        float amount = 346;
 
 
         switch (choix) {
@@ -72,9 +72,6 @@ public class Test {
 
                 if (raise) {
                     System.out.println("\n\n\nSalary raise successful for:" + job + ".\n\n");
-                    for (EmployeeInfo employee : employees) {
-                        System.out.println(employee);
-                    }
                 } else {
                     System.out.println("Salary raise failed or no employees with the specified job.");
                 }

@@ -177,46 +177,23 @@ public class DataAccess {
         }
         return result;
     }
+
     public List<String> executeStatement(String statement) throws SQLException {
         List<String> result = new ArrayList<>();
         if (statement.trim().toLowerCase().startsWith("select")) {
             result = executeQuery(statement);
-        }
-        try (Statement stmt = connection.createStatement()) {
-            boolean isResultSet = stmt.execute(statement);
+        } else {
+            try (Statement stmt = connection.createStatement()) {
+                boolean hasResultSet = stmt.execute(statement);
 
-            if (isResultSet) {
-                ResultSet res = stmt.getResultSet();
-                ResultSetMetaData metaData = res.getMetaData();
-                int columnCount = metaData.getColumnCount();
-
-                StringBuilder head = new StringBuilder();
-                for (int i = 1; i <= columnCount; i++) {
-                    head.append(metaData.getColumnName(i));
-                    if (i < columnCount) {
-                        head.append(", ");
-                    }
+                if (!hasResultSet) {
+                    int count = stmt.getUpdateCount();
+                    result.add("Nombre de lignes affectées : " + count);
                 }
-                result.add(head.toString());
-
-                while (res.next()) {
-                    StringBuilder ligne = new StringBuilder();
-                    for (int i = 1; i <= columnCount; i++) {
-                        ligne.append(res.getString(i));
-                        if (i < columnCount) {
-                            ligne.append(", ");
-                        }
-                    }
-                    result.add(ligne.toString());
-                }
-            } else {
-                int count = stmt.getUpdateCount();
-                result.add("Nombre de lignes affectées : " + count);
             }
         }
         return result;
     }
-
 }
 
 

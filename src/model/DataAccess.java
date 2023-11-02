@@ -179,7 +179,9 @@ public class DataAccess {
     }
     public List<String> executeStatement(String statement) throws SQLException {
         List<String> result = new ArrayList<>();
-
+        if (statement.trim().toLowerCase().startsWith("select")) {
+            result = executeQuery(statement);
+        }
         try (Statement stmt = connection.createStatement()) {
             boolean isResultSet = stmt.execute(statement);
 

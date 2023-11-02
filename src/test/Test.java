@@ -32,7 +32,7 @@ public class Test {
             args[2] = pass;
         }
 
-        System.out.println("Menu :\n1)getEmployee()\n2)raiseSalary()\n3)getDepartment()\n4)Quit");
+        System.out.println("Menu :\n1)getEmployee()\n2)raiseSalary()\n3)getDepartment()\n4)executeQuery()\n5)executeStatement()\n6)Quit");
         int choix = sc.nextInt();
 
         //Parametres à rentrer :
@@ -41,8 +41,7 @@ public class Test {
         List<DepartmentInfo> department = data.getDepartmentsPS(null,null,null);
         //raise amount for job :
         String job = "CLERK";
-        float amount = 346;
-
+        float amount = 200;
 
         switch (choix) {
             case 1:
@@ -83,6 +82,23 @@ public class Test {
                 }
                 break;
             case 4:
+                //EXO6
+                List<String> query = data.executeQuery("SELECT * FROM mission");//On peut changer simplement la table manuellement
+                for (String row : query) {
+                    System.out.println(row);
+                }
+                break;
+            case 5:
+                System.out.println("Entrer votre requête :");
+                sc.nextLine();
+                String Query = sc.nextLine();
+
+                List<String> res = data.executeStatement(Query);
+                for (String row : res) {
+                    System.out.println(row);
+                }
+                break;
+            case 6:
                 return;
             default:
                 System.out.println("Please choose one of the options: ");

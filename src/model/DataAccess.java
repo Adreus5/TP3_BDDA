@@ -143,6 +143,78 @@ public class DataAccess {
         }
         return departmentList;
     }
+
+    public List<String> executeQuery(String query) throws SQLException {
+        List<String> result = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            ResultSet res = stmt.executeQuery();
+
+            ResultSetMetaData metaData = res.getMetaData();
+            int columnCount = metaData.getColumnCount();
+
+            // Construction d'un en-tête pour plus de lisibilité
+            StringBuilder head = new StringBuilder();
+            for (int i = 1; i <= columnCount; i++) {
+                head.append(metaData.getColumnName(i));
+                if (i < columnCount) {
+                    head.append(", ");
+                }
+            }
+            result.add(head.toString());
+
+            //Récupérer le contenu pour chaque colonne sur la ligne sélectionnée
+            while (res.next()) {
+                StringBuilder ligne = new StringBuilder();
+                for (int i = 1; i <= columnCount; i++) {
+                    ligne.append(res.getString(i));
+                    if (i < columnCount) {
+                        ligne.append(", ");
+                    }
+                }
+                result.add(ligne.toString());
+            }
+        }
+        return result;
+    }
+    public List<String> executeStatement(String statement) throws SQLException {
+        List<String> result = new ArrayList<>();
+
+        try (Statement stmt = connection.createStatement()) {
+            boolean isResultSet = stmt.execute(statement);
+
+            if (isResultSet) {
+                ResultSet res = stmt.getResultSet();
+                ResultSetMetaData metaData = res.getMetaData();
+                int columnCount = metaData.getColumnCount();
+
+                StringBuilder head = new StringBuilder();
+                for (int i = 1; i <= columnCount; i++) {
+                    head.append(metaData.getColumnName(i));
+                    if (i < columnCount) {
+                        head.append(", ");
+                    }
+                }
+                result.add(head.toString());
+
+                while (res.next()) {
+                    StringBuilder ligne = new StringBuilder();
+                    for (int i = 1; i <= columnCount; i++) {
+                        ligne.append(res.getString(i));
+                        if (i < columnCount) {
+                            ligne.append(", ");
+                        }
+                    }
+                    result.add(ligne.toString());
+                }
+            } else {
+                int count = stmt.getUpdateCount();
+                result.add("Nombre de lignes affectées : " + count);
+            }
+        }
+        return result;
+    }
+
 }
 
 

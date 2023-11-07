@@ -194,6 +194,13 @@ public class DataAccess {
         }
         return result;
     }
+
+    public void close() throws SQLException {
+        if (connection != null) {
+            connection.close();
+            System.out.println("Connection to the database is closed.");
+        }
+    }
 }
 
 

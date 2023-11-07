@@ -32,33 +32,34 @@ public class Test {
             args[2] = pass;
         }
 
-        System.out.println("Menu :\n1)getEmployee()\n2)raiseSalary()\n3)getDepartment()\n4)executeQuery()\n5)executeStatement()\n6)Quit");
-        int choix = sc.nextInt();
+        int choix;
 
         //Parametres à rentrer :
         DataAccess data = new DataAccess(args[0], args[1], args[2]);
         List<EmployeeInfo> employees = data.getEmployeesPS();
-        List<DepartmentInfo> department = data.getDepartmentsPS(null,null,null);
+        List<DepartmentInfo> department = data.getDepartmentsPS(null, null, null);
         //raise amount for job :
         String job = "CLERK";
         float amount = 200;
-
-        switch (choix) {
-            case 1:
-                //------- EXO 2 -------
+        do {
+            System.out.println("\nMenu :\n1)getEmployee()\n2)raiseSalary()\n3)getDepartment()\n4)executeQuery()\n5)executeStatement()\n6)Quit");
+            choix = sc.nextInt();
+            switch (choix) {
+                case 1:
+                    //------- EXO 2 -------
         /*DataAccess data = new DataAccess(args[0], args[1], args[2]);
         List<EmployeeInfo> employees = data.getEmployees();
         for (EmployeeInfo employee : employees) {
             System.out.println(employee);
         }*/
 
-                //------- EXO 4 -------
-                for (EmployeeInfo employee : employees) {
-                    System.out.println(employee);
-                }
-                break;
-            case 2:
-                //------ EXO 3 ------
+                    //------- EXO 4 -------
+                    for (EmployeeInfo employee : employees) {
+                        System.out.println(employee);
+                    }
+                    break;
+                case 2:
+                    //------ EXO 3 ------
         /*boolean raise = data.raiseSalary(job, amount);
         if (raise) {
             System.out.println("-----------------------------------------------------------");
@@ -66,44 +67,46 @@ public class Test {
                 System.out.println(employee);
             }
         */
-                //EXO4
-                boolean raise = data.raiseSalaryPS(job, amount);
+                    //EXO4
+                    boolean raise = data.raiseSalaryPS(job, amount);
 
-                if (raise) {
-                    System.out.println("\n\n\nSalary raise successful for:" + job + ".\n\n");
-                } else {
-                    System.out.println("Salary raise failed or no employees with the specified job.");
-                }
-                break;
-            case 3:
-                //EXO5
-                for (DepartmentInfo deparment : department) {
-                    System.out.println(deparment);
-                }
-                break;
-            case 4:
-                //EXO6
-                List<String> query = data.executeQuery("SELECT * FROM mission");//On peut changer simplement la table manuellement
-                for (String row : query) {
-                    System.out.println(row);
-                }
-                break;
-            case 5:
-                System.out.println("Entrer votre requête :");
-                sc.nextLine();
-                String Query = sc.nextLine();
+                    if (raise) {
+                        System.out.println("\n\n\nSalary raise successful for:" + job + ".\n\n");
+                    } else {
+                        System.out.println("Salary raise failed or no employees with the specified job.");
+                    }
+                    break;
+                case 3:
+                    //EXO5
+                    for (DepartmentInfo deparment : department) {
+                        System.out.println(deparment);
+                    }
+                    break;
+                case 4:
+                    //EXO6
+                    List<String> query = data.executeQuery("SELECT * FROM mission");//On peut changer simplement la table manuellement
+                    for (String row : query) {
+                        System.out.println(row);
+                    }
+                    break;
+                case 5:
+                    System.out.println("Entrer votre requête :");
+                    sc.nextLine();
+                    String Query = sc.nextLine();
 
-                List<String> res = data.executeStatement(Query);
-                for (String row : res) {
-                    System.out.println(row);
-                }
-                break;
-            case 6:
-                return;
-            default:
-                System.out.println("Please choose one of the options: ");
-                choix = sc.nextInt();
-        }
+                    List<String> res = data.executeStatement(Query);
+                    for (String row : res) {
+                        System.out.println(row);
+                    }
+                    break;
+                case 6:
+                    break;
+                default:
+                    System.out.println("Please choose one of the options: ");
+                    choix = sc.nextInt();
+            }
+        } while (choix != 6);
+        data.close();
     }
 }
 
